@@ -4,26 +4,27 @@ from food import Food
 from score import ScoreBoard
 import time
 
-screen = Screen()
-screen.setup(width=600, height=600)
-screen.bgcolor('black')
-screen.title('SNAKE')
-screen.tracer(0) #tracer
 
-snake = Snake() #snake object
-food = Food()
-s = ScoreBoard()
-
-
-
-
-screen.listen()
-screen.onkey(snake.up, "Up")
-screen.onkey(snake.down, "Down")
-screen.onkey(snake.left, "Left")
-screen.onkey(snake.right, "Right")
 
 def main():
+
+    screen = Screen()
+    screen.setup(width=600, height=600)
+    screen.bgcolor('black')
+    screen.title('SNAKE')
+    screen.tracer(0)  # tracer
+
+    snake = Snake()  # snake object
+    food = Food()
+    s = ScoreBoard()
+
+    screen.listen()
+    # screen.onkey(s.game_over, "space")
+    screen.onkey(snake.up, "Up")
+    screen.onkey(snake.down, "Down")
+    screen.onkey(snake.left, "Left")
+    screen.onkey(snake.right, "Right")
+
     s.game_score()
     game_on = True
     while game_on:
@@ -38,14 +39,22 @@ def main():
             snake.extend_snake()
             s.add_score()
 
+        #detect collision with wall
         if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-            game_on = False
-            s.game_over()
+            s.reset()
+            snake.reset()
+            # game_on = False
+            # s.game_over()
 
+        #detect collision with tail
         for i in snake.segments[1:]:
             if snake.head.distance(i) <10:
-                game_on = False
-                s.game_over()
+                s.reset()
+                snake.reset()
+                # game_on = False
+                # s.game_over()
+
+    screen.exitonclick()
 
 
 if __name__ == '__main__':
@@ -53,18 +62,3 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-screen.exitonclick()

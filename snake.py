@@ -12,7 +12,6 @@ class Snake:
 
 
     def create_snake(self):
-
         for i in STARTING_POSITIONS: #for each element (tuple with starting position) in list: (so 3)
             self.add_body(i)
 
@@ -24,6 +23,12 @@ class Snake:
         new_segment.goto(i)  # go to the position we are itterating over in list (1st, 2nd, 3rd)
         self.segments.append(new_segment)  # add the 'self.' to show that we refer to class attribute
 
+    def reset(self):
+        for i in self.segments:
+            i.goto(1000, 10000)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]
 
     def extend_snake(self):
         self.add_body(self.segments[-1].position()) #get the last position of segment in list by using method .position()
@@ -43,7 +48,6 @@ class Snake:
         if self.head.heading() != 270:
             self.head.setheading(90)
 
-
     def down(self):
         if self.head.heading() != 90:
             self.head.setheading(270)
@@ -58,14 +62,3 @@ class Snake:
 
 
 
-
-    # works to ADD A SEGMENT but when it hits the food item AFTER ADDING IN "HIT BODY" FUNCTIONALITY it
-    # acts as if food object is a body segment and ends game...
-
-    # def add_body(self): #add more body to snake
-    #     new_segment = Turtle('square') #generating new segment (instance)
-    #     new_segment.color('white')
-    #     new_segment.penup()
-    #     for i in range(len(self.segments) -1, 0, -1):
-    #         new_segment.goto(self.segments[i-1].xcor(), self.segments[i-1].ycor()) #sending new segment to coordinate of last segments psoition
-    #     self.segments.append(new_segment) #appending to list (and will move like te other segments
